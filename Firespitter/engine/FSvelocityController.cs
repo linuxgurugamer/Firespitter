@@ -116,7 +116,8 @@ namespace Firespitter.engine
                     if (!resourceReceived)
                         thrustUsed = 0f;
                     if (thrustUsed > 0f)
-                        part.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(finalThrust, t.transform.position);
+
+                    //  part.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(finalThrust, t.transform.position);
                     //KSP 1.8
                     //if (useFX)
                     //{
@@ -124,6 +125,14 @@ namespace Firespitter.engine
                     //    particleFX[i].pEmitter.maxEmission = defaultEmitterMaxEmission * thrustUsed;
                     //}
                     //KSP 1.8
+					// following from @Lisias's patch for Making Firespitter compatible with Principia and other mods that inspect the force vectors.
+                        part.gameObject.GetComponent<Part>().AddForceAtPosition(finalThrust, t.transform.position);
+                    //if (useFX)
+                    //{
+                    //    particleFX[i].pEmitter.minEmission = defaultEmitterMinEmission * thrustUsed;
+                    //    particleFX[i].pEmitter.maxEmission = defaultEmitterMaxEmission * thrustUsed;
+                    //}
+
                     i++;
                 }
             }
@@ -157,7 +166,7 @@ namespace Firespitter.engine
                 if (thrustModifier > 0f && velocityDirection.magnitude > minVelocityToActivate)
                 {
                     finalThrust = -thrustDirection * thrustModifier * maxThrust;
-                    //part.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(-thrustDirection * thrustModifier * maxThrust, t.transform.position);
+                    part.gameObject.GetComponent<Part>().AddForceAtPosition(-thrustDirection * thrustModifier * maxThrust, t.transform.position);
                 }
                 else
                 {
